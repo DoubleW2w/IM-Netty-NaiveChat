@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -18,10 +19,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Class<? extends Main> aClass = getClass();
-        URL resource = aClass.getResource("../sample.fxml");
-        assert resource != null;
-        Parent root = FXMLLoader.load(resource);
+        Parent root = loadFXML("sample");
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
@@ -31,4 +29,8 @@ public class Main extends Application {
         launch(args);
     }
 
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
 }
