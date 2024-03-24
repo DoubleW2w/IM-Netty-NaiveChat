@@ -11,8 +11,10 @@
     <modules>
         <module>naive-chat-ui-01</module>
         <module>naive-chat-ui-02</module>
+        <module>naive-chat-ui-03</module>
+        <module>naive-chat-ui-04</module>
     </modules>
-
+    <description>javafx-demo 学习工程</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -27,9 +29,9 @@
         <netty.version>4.1.96.Final</netty.version>
         <protostuff.version>1.0.10</protostuff.version>
         <objenesis.version>2.4</objenesis.version>
-        <org.openjfx.version>17.0.6</org.openjfx.version>
+        <javafx.version>17.0.6</javafx.version>
         <junit.version>5.10.0</junit.version>
-        <hutool.version>5.8.25</hutool.version>
+        <hutool.version>5.8.26</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -43,32 +45,32 @@
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-controls</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-fxml</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-base</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-graphics</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-swing</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-web</artifactId>
-                <version>${org.openjfx.version}</version>
+                <version>${javafx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.controlsfx</groupId>

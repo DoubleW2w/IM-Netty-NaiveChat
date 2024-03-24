@@ -10,6 +10,7 @@ import javafx.stage.Stage;
  * @project: IM-Netty-NaiveChat
  */
 public class Application extends javafx.application.Application {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Login login = new Login();

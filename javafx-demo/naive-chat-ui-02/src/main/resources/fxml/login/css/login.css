@@ -6,6 +6,8 @@
     -fx-background-color: white;
 }
 
+
+
 #operation{
    -fx-border-color: rgb(180,180,180);
    -fx-border-width: 1px 1px 0 1px;
@@ -82,4 +84,12 @@
 
 #slogan{
     -fx-text-fill: #999999;
+}
+
+.logo {
+    -fx-background-radius: 4px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-border-color: rgb(180,180,180);
+    -fx-background-color: white;
 }
