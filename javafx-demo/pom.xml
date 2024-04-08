@@ -11,6 +11,7 @@
     <description>javafx-demo 学习工程</description>
     <modules>
         <module>naive-chat-ui-02</module>
+        <module>naive-chat-ui-03</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
