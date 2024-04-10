@@ -12,6 +12,7 @@
     <modules>
         <module>naive-chat-ui-02</module>
         <module>naive-chat-ui-03</module>
+        <module>naive-chat-ui-04</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -63,7 +64,6 @@
     </dependencies>
 
     <build>
-        <finalName>demo</finalName>
         <plugins>
             <!-- 编译plugin -->
             <plugin>
