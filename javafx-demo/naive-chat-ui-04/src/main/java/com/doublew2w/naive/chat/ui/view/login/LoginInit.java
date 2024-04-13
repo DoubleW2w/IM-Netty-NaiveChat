@@ -13,14 +13,20 @@ import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 
 /**
+ * 窗体的初始化操作
+ *
+ * <p>1.创建一些待填充的元素
+ *
  * @author: DoubleW2w
- * @description: 窗体的初始化操作
+ * @description:
  * @date: 2024/4/10 21:56
  * @project: IM-Netty-NaiveChat
  */
 public abstract class LoginInit extends UIObject {
+  /** 登陆fxml资源文件 */
   private static final String RESOURCE_NAME = "/fxml/login/login.fxml";
 
+  /** 登陆事件接口 */
   protected ILoginEvent loginEvent;
 
   /** 登陆窗口最小化 */
@@ -40,6 +46,7 @@ public abstract class LoginInit extends UIObject {
 
   LoginInit(ILoginEvent loginEvent) {
     this.loginEvent = loginEvent;
+    // 1.加载资源文件
     try {
       root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(RESOURCE_NAME)));
     } catch (IOException e) {
@@ -51,10 +58,12 @@ public abstract class LoginInit extends UIObject {
     setScene(scene);
     initStyle(StageStyle.TRANSPARENT);
     setResizable(false);
-    // 设置窗体
     this.getIcons().add(new Image("/fxml/login/img/system/logo.png"));
+    // 登陆窗体包含的内容
     obtain();
+    // 初始化窗体展示
     initView();
+    // 初始化数据定义
     initEventDefine();
   }
 

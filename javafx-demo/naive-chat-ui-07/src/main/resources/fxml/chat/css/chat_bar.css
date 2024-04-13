@@ -42,14 +42,14 @@
     -fx-border-radius: 2px;
     -fx-border-color: transparent;
 }
-
+/* 测试事件注释，使用java代码控制；setOnAction、setOnMouseEntered、setOnMouseExited
 #bar_friend:hover{
     -fx-background-image: url("/fxml/chat/img/system/friend_1.png");
 }
 
 #bar_friend:pressed{
     -fx-background-image: url("/fxml/chat/img/system/friend_2.png");
-}
+}*/
 
 #bar_location{
         -fx-background-radius: 2px;

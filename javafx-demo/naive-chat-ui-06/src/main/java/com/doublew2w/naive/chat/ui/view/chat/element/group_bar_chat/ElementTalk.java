@@ -59,6 +59,8 @@ public class ElementTalk {
     // 设置框体大小和设计CSS属性
     pane.setPrefSize(270, 80);
     pane.getStyleClass().add("talkElement");
+
+    // 对话面板的子元素列表
     ObservableList<Node> children = pane.getChildren();
 
     // 头像区域

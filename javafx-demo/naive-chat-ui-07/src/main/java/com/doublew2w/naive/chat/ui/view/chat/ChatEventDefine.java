@@ -1,6 +1,9 @@
 package com.doublew2w.naive.chat.ui.view.chat;
 
-import javafx.scene.control.Button;
+import com.doublew2w.naive.chat.ui.view.chat.data.TalkBoxData;
+import java.util.Date;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 /**
@@ -14,13 +17,82 @@ import javafx.scene.layout.Pane;
 public class ChatEventDefine {
 
   private ChatInit chatInit;
+  private IChatEvent chatEvent;
+  private IChatMethod chatMethod;
 
-  public ChatEventDefine(ChatInit chatInit) {
+  public ChatEventDefine(ChatInit chatInit, IChatEvent chatEvent, IChatMethod chatMethod) {
     this.chatInit = chatInit;
+    this.chatEvent = chatEvent;
+    this.chatMethod = chatMethod;
 
     chatInit.move();
-    this.barChat();
-    this.barFriend();
+    min(); // 最小化
+    quit(); // 退出
+    barChat(); // 聊天
+    barFriend(); // 好友
+    doEventTextSend(); // 发送消息事件[键盘]
+    doEventTouchSend(); //
+  }
+
+  /** 发送消息事件[按钮] */
+  private void doEventTouchSend() {
+    Label touch_send = chatInit.$("touch_send", Label.class);
+    touch_send.setOnMousePressed(event -> {
+      doEventSendMsg();
+    });
+  }
+
+  /** 发送消息事件[键盘] */
+  private void doEventTextSend() {
+    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
+    txt_input.setOnKeyPressed(
+        event -> {
+          if (event.getCode().equals(KeyCode.ENTER)) {
+            doEventSendMsg();
+          }
+        });
+  }
+
+  private void doEventSendMsg() {
+    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
+    String msg = txt_input.getText();
+    if (null == msg || msg.isEmpty() || msg.trim().isEmpty()) {
+      return;
+    }
+
+    MultipleSelectionModel selectionModel =
+        chatInit.$("talkList", ListView.class).getSelectionModel();
+    Pane selectedItem = (Pane) selectionModel.getSelectedItem();
+    // 对话信息
+    TalkBoxData talkBoxData = (TalkBoxData) selectedItem.getUserData();
+    Date msgDate = new Date();
+    // 发送消息
+    System.out.println("发送消息：" + msg);
+    // 发送事件给自己添加消息
+    chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+    txt_input.clear();
+  }
+
+  /** 退出 */
+  private void quit() {
+    chatInit
+        .$("group_bar_chat_close", Button.class)
+        .setOnAction(
+            event -> {
+              chatInit.close();
+              System.exit(0);
+              System.out.println("退出");
+            });
+  }
+
+  /** 最小化 */
+  private void min() {
+    chatInit
+        .$("group_bar_chat_min", Button.class)
+        .setOnAction(
+            event -> {
+              chatInit.setIconified(true);
+            });
   }
 
   /**

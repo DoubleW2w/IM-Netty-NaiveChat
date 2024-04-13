@@ -2,7 +2,7 @@ package com.doublew2w.naive.chat.ui.view.login;
 
 /**
  * @author: DoubleW2w
- * @description: 页面展示元素和事件定义
+ * @description: 登陆窗体的展示
  * @date: 2024/4/10 22:12
  * @project: IM-Netty-NaiveChat
  */

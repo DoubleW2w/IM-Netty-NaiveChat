@@ -1,12 +1,14 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
 /**
- * 登陆窗体实现，外部给予实现
+ * 登陆事件接口类
  *
- * <p>事件接口类，点击登陆后属于窗体的功能处理完毕后，实际的验证交给外部
+ * <p>具体实现交给调用方
+ *
+ * <p>1. 登陆校验
  *
  * @author: DoubleW2w
- * @description: 登陆窗体实现
+ * @description:
  * @date: 2024/4/10 21:51
  * @project: IM-Netty-NaiveChat
  */

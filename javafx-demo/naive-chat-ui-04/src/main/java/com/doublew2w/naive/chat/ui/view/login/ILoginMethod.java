@@ -1,9 +1,9 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
 /**
- * 方法接口类
+ * 登陆的方法接口类
  *
- * <p>登陆处理完毕后来执行对应的方法，进行窗口切换或者数据填充
+ * <p>对外提供接口主要用于登陆处理完毕后，执行对应的方法进行窗体切换或者数据填充
  *
  * @author: DoubleW2w
  * @description:

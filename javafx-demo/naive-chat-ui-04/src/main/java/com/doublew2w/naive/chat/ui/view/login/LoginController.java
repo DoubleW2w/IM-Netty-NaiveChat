@@ -1,10 +1,12 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
 /**
- * 窗口
+ * 窗口控制管理类，也是一个窗体的管理
+ *
+ * <p>继承窗体的装载，实现接口方法，初始化界面，初始化事件定义
  *
  * @author: DoubleW2w
- * @description: 窗口控制管理类
+ * @description:
  * @date: 2024/4/10 21:56
  * @project: IM-Netty-NaiveChat
  */

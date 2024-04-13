@@ -4,11 +4,13 @@ import com.doublew2w.naive.chat.ui.util.DateUtil;
 import com.doublew2w.naive.chat.ui.util.Ids;
 import com.doublew2w.naive.chat.ui.view.chat.data.RemindCount;
 import com.doublew2w.naive.chat.ui.view.chat.data.TalkBoxData;
+import com.doublew2w.naive.chat.ui.view.chat.data.TalkData;
 import java.util.Date;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 
 /**
@@ -39,10 +41,18 @@ public class ElementTalk {
   /** 删除对话框按钮 */
   private Button delete;
 
+  /** 初始化填充消息对话框 */
+  private ListView<Pane> infoBoxList;
+
   /**
-   * 初始化整体窗体，
+   * 初始化对话框整体窗体
    *
-   * <p>并
+   * @param talkId 对话框Id
+   * @param talkType 对话框类型[0-好友 1-群组]
+   * @param talkName 对话名称
+   * @param talkHead 对话头像
+   * @param talkSketch 对话概要信息
+   * @param talkDate 对话时间
    */
   public ElementTalk(
       String talkId,
@@ -119,10 +129,21 @@ public class ElementTalk {
     delete.setLayoutX(-8);
     delete.getStyleClass().add("element_delete");
     children.add(delete);
+
+    // 消息框[初始化，未装载]，承载对话信息内容，点击按钮时候填充
+    infoBoxList = new ListView<>();
+    infoBoxList.setId(Ids.ElementTalkId.createInfoBoxListId(talkId));
+    infoBoxList.setUserData(new TalkData(talkName, talkHead));
+    infoBoxList.setPrefSize(850, 560);
+    infoBoxList.getStyleClass().add("infoBoxStyle");
   }
 
   public Pane pane() {
     return pane;
+  }
+
+  public ListView<Pane> infoBoxList() {
+    return infoBoxList;
   }
 
   public Button delete() {

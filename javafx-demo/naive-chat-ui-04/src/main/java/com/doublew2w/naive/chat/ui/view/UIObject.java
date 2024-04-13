@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /**
  * @author: DoubleW2w
- * @description:
+ * @description: UI抽象类，抽象一些公用的UI行为
  * @date: 2024/4/10 22:04
  * @project: IM-Netty-NaiveChat
  */

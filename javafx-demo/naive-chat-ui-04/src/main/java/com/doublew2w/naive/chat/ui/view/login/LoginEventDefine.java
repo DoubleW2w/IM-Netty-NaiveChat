@@ -1,7 +1,9 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
 /**
- * 事件定义完成后，都会交给构造方法进行初始化。
+ * 完成登陆窗体的事件定义
+ *
+ * <p>登陆、最小化、退出、移动等
  *
  * @author: DoubleW2w
  * @description: 窗体事件定义

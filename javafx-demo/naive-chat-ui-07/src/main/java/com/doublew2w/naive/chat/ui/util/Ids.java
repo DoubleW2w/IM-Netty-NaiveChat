@@ -17,6 +17,12 @@ public class Ids {
       return id.split("_")[2];
     }
 
+    /**
+     * 创建对话聊天框id
+     *
+     * @param id 对话框id
+     * @return id
+     */
     public static String createInfoBoxListId(String id) {
       return "ElementTalkId_createInfoBoxListId_" + id;
     }
@@ -25,6 +31,12 @@ public class Ids {
       return id.split("_")[2];
     }
 
+    /**
+     * 创建对话框——消息数据id
+     *
+     * @param id 对话框id
+     * @return id
+     */
     public static String createMsgDataId(String id) {
       return "ElementTalkId_createMsgDataId_" + id;
     }
@@ -33,6 +45,12 @@ public class Ids {
       return id.split("_")[2];
     }
 
+    /**
+     * 创建对话栏——消息概要Id
+     *
+     * @param id 对话框Id
+     * @return id
+     */
     public static String createMsgSketchId(String id) {
       return "ElementTalkId_createMsgSketchId_" + id;
     }
@@ -41,6 +59,12 @@ public class Ids {
       return id.split("_")[2];
     }
 
+    /**
+     * 创建对话消息框——群聊id
+     *
+     * @param id 对话框id
+     * @return id
+     */
     public static String createFriendGroupId(String id) {
       return "ElementTalkId_createFriendGroupId_" + id;
     }
