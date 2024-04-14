@@ -15,7 +15,6 @@ import javafx.scene.layout.Pane;
  * @project: IM-Netty-NaiveChat
  */
 public class ChatEventDefine {
-
   private ChatInit chatInit;
   private IChatEvent chatEvent;
   private IChatMethod chatMethod;
@@ -31,68 +30,42 @@ public class ChatEventDefine {
     barChat(); // 聊天
     barFriend(); // 好友
     doEventTextSend(); // 发送消息事件[键盘]
-    doEventTouchSend(); //
+    doEventTouchSend(); // 发送消息事件[按钮]
   }
 
-  /** 发送消息事件[按钮] */
-  private void doEventTouchSend() {
-    Label touch_send = chatInit.$("touch_send", Label.class);
-    touch_send.setOnMousePressed(
-        event -> {
-          doEventSendMsg();
-        });
-  }
-
-  /** 发送消息事件[键盘] */
-  private void doEventTextSend() {
-    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
-    txt_input.setOnKeyPressed(
-        event -> {
-          if (event.getCode().equals(KeyCode.ENTER)) {
-            doEventSendMsg();
-          }
-        });
-  }
-
-  private void doEventSendMsg() {
-    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
-    String msg = txt_input.getText();
-    if (null == msg || msg.isEmpty() || msg.trim().isEmpty()) {
-      return;
-    }
-
-    MultipleSelectionModel selectionModel =
-        chatInit.$("talkList", ListView.class).getSelectionModel();
-    Pane selectedItem = (Pane) selectionModel.getSelectedItem();
-    // 对话信息
-    TalkBoxData talkBoxData = (TalkBoxData) selectedItem.getUserData();
-    Date msgDate = new Date();
-    // 发送消息
-    System.out.println("发送消息：" + msg);
-    // 发送事件给自己添加消息
-    chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
-    txt_input.clear();
-  }
-
-  /** 退出 */
-  private void quit() {
-    chatInit
-        .$("group_bar_chat_close", Button.class)
-        .setOnAction(
-            event -> {
-              chatInit.close();
-              System.exit(0);
-              System.out.println("退出");
-            });
-  }
-
-  /** 最小化 */
+  // 最小化
   private void min() {
     chatInit
         .$("group_bar_chat_min", Button.class)
         .setOnAction(
             event -> {
               chatInit.setIconified(true);
+            });
+    chatInit
+        .$("group_bar_friend_min", Button.class)
+        .setOnAction(
+            event -> {
+              chatInit.setIconified(true);
+            });
+  }
+
+  // 退出
+  private void quit() {
+    chatInit
+        .$("group_bar_chat_close", Button.class)
+        .setOnAction(
+            event -> {
+              chatEvent.doQuit();
+              chatInit.close();
+              System.exit(0);
+            });
+    chatInit
+        .$("group_bar_friend_close", Button.class)
+        .setOnAction(
+            event -> {
+              chatEvent.doQuit();
+              chatInit.close();
+              System.exit(0);
             });
   }
 
@@ -190,44 +163,7 @@ public class ChatEventDefine {
     }
   }
 
-  /**
-   * 群组；开启与群组发送消息
-   *
-   * <p>点击鼠标事件后，填充群组信息到面板中
-   *
-   * @param sendMsgButton 发送按钮
-   * @param groupId 群组id
-   * @param groupName 群组名称
-   * @param groupHead 群组头像
-   */
-  public void doEventOpenFriendGroupSendMsg(
-      Button sendMsgButton, String groupId, String groupName, String groupHead) {
-    sendMsgButton.setOnAction(
-        event -> {
-          // 1. 添加好友到对话框
-          chatMethod.addTalkBox(0, 1, groupId, groupName, groupHead, null, null, true);
-          // 2. 切换到对话框窗口
-          switchBarChat(
-              chatInit.$("bar_chat", Button.class), chatInit.$("group_bar_chat", Pane.class), true);
-          switchBarFriend(
-              chatInit.$("bar_friend", Button.class),
-              chatInit.$("group_bar_friend", Pane.class),
-              false);
-          // 3. 事件处理；填充到对话框
-          System.out.println("事件处理；填充到对话框");
-        });
-  }
-
-  /**
-   * 好友；开启与好友发送消息
-   *
-   * <p>[点击发送消息时候触发 -> 添加到对话框、选中、展示对话列表]
-   *
-   * @param sendMsgButton 发送消息按钮
-   * @param userFriendId 好友id
-   * @param userFriendNickName 好友昵称
-   * @param userFriendHead 好友头像
-   */
+  // 好友；开启与好友发送消息 [点击发送消息时候触发 -> 添加到对话框、选中、展示对话列表]
   public void doEventOpenFriendUserSendMsg(
       Button sendMsgButton, String userFriendId, String userFriendNickName, String userFriendHead) {
     sendMsgButton.setOnAction(
@@ -243,7 +179,66 @@ public class ChatEventDefine {
               chatInit.$("group_bar_friend", Pane.class),
               false);
           // 3. 事件处理；填充到对话框
-          System.out.println("事件处理；填充到对话框");
+          chatEvent.doEventAddTalkUser(chatInit.userId, userFriendId);
         });
+  }
+
+  // 群组；开启与群组发送消息
+  public void doEventOpenFriendGroupSendMsg(
+      Button sendMsgButton, String groupId, String groupName, String groupHead) {
+    sendMsgButton.setOnAction(
+        event -> {
+          // 1. 添加好友到对话框
+          chatMethod.addTalkBox(0, 1, groupId, groupName, groupHead, null, null, true);
+          // 2. 切换到对话框窗口
+          switchBarChat(
+              chatInit.$("bar_chat", Button.class), chatInit.$("group_bar_chat", Pane.class), true);
+          switchBarFriend(
+              chatInit.$("bar_friend", Button.class),
+              chatInit.$("group_bar_friend", Pane.class),
+              false);
+          // 3. 事件处理；填充到对话框
+          chatEvent.doEventAddTalkGroup(chatInit.userId, groupId);
+        });
+  }
+
+  // 发送消息事件[键盘]
+  private void doEventTextSend() {
+    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
+    txt_input.setOnKeyPressed(
+        event -> {
+          if (event.getCode().equals(KeyCode.ENTER)) {
+            doEventSendMsg();
+          }
+        });
+  }
+
+  // 发送消息事件[按钮]
+  private void doEventTouchSend() {
+    Label touch_send = chatInit.$("touch_send", Label.class);
+    touch_send.setOnMousePressed(
+        event -> {
+          doEventSendMsg();
+        });
+  }
+
+  private void doEventSendMsg() {
+    TextArea txt_input = chatInit.$("txt_input", TextArea.class);
+    MultipleSelectionModel selectionModel =
+        chatInit.$("talkList", ListView.class).getSelectionModel();
+    Pane selectedItem = (Pane) selectionModel.getSelectedItem();
+    // 对话信息
+    TalkBoxData talkBoxData = (TalkBoxData) selectedItem.getUserData();
+    String msg = txt_input.getText();
+    if (null == msg || "".equals(msg) || "".equals(msg.trim())) {
+      return;
+    }
+    Date msgDate = new Date();
+    // 发送消息
+    chatEvent.doSendMsg(
+        chatInit.userId, talkBoxData.getTalkId(), talkBoxData.getTalkType(), msg, msgDate);
+    // 发送事件给自己添加消息
+    chatMethod.addTalkMsgRight(talkBoxData.getTalkId(), msg, msgDate, true, true, false);
+    txt_input.clear();
   }
 }

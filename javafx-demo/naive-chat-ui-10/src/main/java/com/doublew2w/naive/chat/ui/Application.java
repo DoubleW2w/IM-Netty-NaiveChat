@@ -3,7 +3,12 @@ package com.doublew2w.naive.chat.ui;
 import com.doublew2w.naive.chat.ui.view.chat.ChatController;
 import com.doublew2w.naive.chat.ui.view.chat.IChatEvent;
 import com.doublew2w.naive.chat.ui.view.chat.IChatMethod;
+import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendLuckUser;
+import com.doublew2w.naive.chat.ui.view.login.ILoginMethod;
+import com.doublew2w.naive.chat.ui.view.login.LoginController;
 import java.util.Date;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -16,7 +21,64 @@ public class Application extends javafx.application.Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    IChatMethod chat = new ChatController(new IChatEvent() {});
+    IChatMethod chat =
+        new ChatController(
+            new IChatEvent() {
+              @Override
+              public void doQuit() {
+                System.out.println("退出操作！");
+              }
+
+              @Override
+              public void doSendMsg(
+                  String userId, String talkId, Integer talkType, String msg, Date msgDate) {
+                System.out.println("发送消息");
+                System.out.println("userId：" + userId);
+                System.out.println("talkType[0好友/1群组]：" + talkType);
+                System.out.println("talkId：" + talkId);
+                System.out.println("msg：" + msg);
+              }
+
+              @Override
+              public void doEventAddTalkUser(String userId, String userFriendId) {
+                System.out.println("填充到聊天窗口[好友] userFriendId：" + userFriendId);
+              }
+
+              @Override
+              public void doEventAddTalkGroup(String userId, String groupId) {
+                System.out.println("填充到聊天窗口[群组] groupId：" + groupId);
+              }
+
+              @Override
+              public void doEventDelTalkUser(String userId, String talkId) {
+                System.out.println("删除对话框：" + talkId);
+              }
+
+              @Override
+              public void addFriendLuck(String userId, ListView<Pane> listView) {
+                System.out.println("新的朋友");
+                // 添加朋友
+                listView
+                    .getItems()
+                    .add(new ElementFriendLuckUser("1000005", "比丘卡", "05_50", 0).pane());
+                listView
+                    .getItems()
+                    .add(new ElementFriendLuckUser("1000006", "兰兰", "06_50", 1).pane());
+                listView
+                    .getItems()
+                    .add(new ElementFriendLuckUser("1000007", "Alexa", "07_50", 2).pane());
+              }
+
+              @Override
+              public void doFriendLuckSearch(String userId, String text) {
+                System.out.println("搜索好友：" + text);
+              }
+
+              @Override
+              public void doEventAddLuckUser(String userId, String friendId) {
+                System.out.println("添加好友：" + friendId);
+              }
+            });
 
     chat.doShow();
     chat.setUserInfo("1000001", "拎包冲", "02_50");
@@ -50,6 +112,13 @@ public class Application extends javafx.application.Application {
         "5307397", "1000003", "铁锤", "03_50", "奈河桥边的姑娘", new Date(), true, false, true);
     chat.addTalkMsgGroupLeft(
         "5307397", "1000004", "哈尼克兔", "04_50", "等我回头看", new Date(), true, false, true);
+
+    ILoginMethod login =
+        new LoginController(
+            (userId, userPassword) -> {
+              System.out.println("登陆 userId：" + userId + "userPassword：" + userPassword);
+            },
+            chat);
   }
 
   public static void main(String[] args) {

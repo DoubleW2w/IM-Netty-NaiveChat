@@ -1,5 +1,7 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
+import com.doublew2w.naive.chat.ui.view.chat.IChatMethod;
+
 /**
  * 窗口
  *
@@ -12,11 +14,15 @@ public class LoginController extends LoginInit implements ILoginMethod {
   /** 登陆页面 */
   private LoginView loginView;
 
+  /** 聊天窗口方法 */
+  private IChatMethod chat;
+
   /** 登陆事件定义 */
   private LoginEventDefine loginEventDefine;
 
-  public LoginController(ILoginEvent loginEvent) {
+  public LoginController(ILoginEvent loginEvent, IChatMethod chat) {
     super(loginEvent);
+    this.chat = chat;
   }
 
   @Override

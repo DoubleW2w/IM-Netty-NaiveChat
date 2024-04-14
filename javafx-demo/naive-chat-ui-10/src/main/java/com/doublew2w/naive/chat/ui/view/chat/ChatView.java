@@ -41,57 +41,6 @@ public class ChatView {
     addFriendUserList();
   }
 
-  /** 好友框体 */
-  private void addFriendUserList() {
-    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
-    ObservableList<Pane> items = friendList.getItems();
-
-    ElementFriendTag elementFriendTag = new ElementFriendTag("好友");
-    items.add(elementFriendTag.pane());
-
-    ElementFriendUserList element = new ElementFriendUserList();
-    items.add(element.pane());
-  }
-
-  /** 好友群组框体 */
-  private void addFriendGroupList() {
-    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
-    ObservableList<Pane> items = friendList.getItems();
-
-    ElementFriendTag elementFriendTag = new ElementFriendTag("群聊");
-    items.add(elementFriendTag.pane());
-
-    ElementFriendGroupList element = new ElementFriendGroupList();
-    items.add(element.pane());
-  }
-
-  /** 好友列表添加‘公众号’ */
-  private void addFriendSubscription() {
-    // 获取好友栏
-    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
-    ObservableList<Pane> items = friendList.getItems();
-
-    // 占位标签
-    ElementFriendTag elementFriendTag = new ElementFriendTag("公众号");
-    items.add(elementFriendTag.pane());
-
-    // 设置「公众号」添加到框体中
-    ElementFriendSubscription element = new ElementFriendSubscription();
-    Pane pane = element.pane();
-    items.add(pane);
-
-    // 面板填充和事件
-    // 鼠标点击不同的框体，都会是选中，不会去掉选中
-    pane.setOnMousePressed(
-        event -> {
-          chatInit.clearViewListSelectedAll(
-              chatInit.$("userListView", ListView.class),
-              chatInit.$("groupListView", ListView.class));
-          Pane subPane = element.subPane();
-          setContentPaneBox("itstack-naive-chat-ui-chat-friend-subscription", "公众号", subPane);
-        });
-  }
-
   /** 好友列表添加工具方法‘新的朋友’ */
   private void initAddFriendLuck() {
     // 好友列表
@@ -115,7 +64,7 @@ public class ChatView {
               chatInit.$("groupListView", ListView.class));
           ListView<Pane> listView = element.friendLuckListView();
           listView.getItems().clear();
-          System.out.println("添加好友");
+          chatEvent.addFriendLuck(chatInit.userId, listView);
         });
 
     // 搜索框事件
@@ -129,25 +78,59 @@ public class ChatView {
             if (null == text) text = "";
             if (text.length() > 30) text = text.substring(0, 30);
             text = text.trim();
-            System.out.println("搜搜好友：" + text);
+            chatEvent.doFriendLuckSearch(chatInit.userId, text);
             // 搜索清空元素
             element.friendLuckListView().getItems().clear();
-
-            // 添加朋友(预设)
-            element
-                .friendLuckListView()
-                .getItems()
-                .add(new ElementFriendLuckUser("1000005", "比丘卡", "05_50", 0).pane());
-            element
-                .friendLuckListView()
-                .getItems()
-                .add(new ElementFriendLuckUser("1000006", "兰兰", "06_50", 1).pane());
-            element
-                .friendLuckListView()
-                .getItems()
-                .add(new ElementFriendLuckUser("1000007", "Alexa", "07_50", 2).pane());
           }
         });
+  }
+
+  /** 好友列表添加‘公众号’ */
+  private void addFriendSubscription() {
+    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
+    ObservableList<Pane> items = friendList.getItems();
+
+    ElementFriendTag elementFriendTag = new ElementFriendTag("公众号");
+    items.add(elementFriendTag.pane());
+
+    ElementFriendSubscription element = new ElementFriendSubscription();
+    Pane pane = element.pane();
+    items.add(pane);
+
+    pane.setOnMousePressed(
+        event -> {
+          chatInit.clearViewListSelectedAll(
+              chatInit.$("userListView", ListView.class),
+              chatInit.$("groupListView", ListView.class));
+          Pane subPane = element.subPane();
+          setContentPaneBox("itstack-naive-chat-ui-chat-friend-subscription", "公众号", subPane);
+        });
+  }
+
+  /** 好友群组框体 */
+  private void addFriendGroupList() {
+    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
+    ObservableList<Pane> items = friendList.getItems();
+
+    ElementFriendTag elementFriendTag = new ElementFriendTag("群聊");
+    items.add(elementFriendTag.pane());
+
+    ElementFriendGroupList element = new ElementFriendGroupList();
+    Pane pane = element.pane();
+    items.add(pane);
+  }
+
+  /** 好友框体 */
+  private void addFriendUserList() {
+    ListView<Pane> friendList = chatInit.$("friendList", ListView.class);
+    ObservableList<Pane> items = friendList.getItems();
+
+    ElementFriendTag elementFriendTag = new ElementFriendTag("好友");
+    items.add(elementFriendTag.pane());
+
+    ElementFriendUserList element = new ElementFriendUserList();
+    Pane pane = element.pane();
+    items.add(pane);
   }
 
   /**
@@ -189,7 +172,6 @@ public class ChatView {
     TalkBoxData talkBoxData = (TalkBoxData) talkElementPane.getUserData();
     // 填充到对话框
     ListView<Pane> talkList = chatInit.$("talkList", ListView.class);
-
     // 对话空为空，初始化[置顶、选中、提醒]
     if (talkList.getItems().isEmpty()) {
       if (idxFirst) {
@@ -202,7 +184,6 @@ public class ChatView {
       isRemind(msgRemindLabel, talkType, isRemind);
       return;
     }
-
     // 对话空不为空，判断第一个元素是否当前聊天Pane
     Pane firstPane = talkList.getItems().get(0);
     // 判断元素是否在首位，如果是首位可返回不需要重新设置首位

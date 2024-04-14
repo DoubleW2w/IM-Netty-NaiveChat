@@ -8,6 +8,7 @@ import com.doublew2w.naive.chat.ui.view.chat.data.TalkData;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_chat.ElementInfoBox;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_chat.ElementTalk;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendGroup;
+import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendLuckUser;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendUser;
 import java.util.Date;
 import javafx.collections.ObservableList;
@@ -127,14 +128,20 @@ public class ChatController extends ChatInit implements IChatMethod {
           talkElement.delete().setVisible(false);
         });
 
-    // 点击删除按钮时，从对话框中删除
+    // 填充对话框消息栏
+    fillInfoBox(talkElement, talkName);
+    // 从对话框中删除
     talkElement
         .delete()
         .setOnMouseClicked(
             event -> {
-              System.out.println("删除对话框：" + talkName);
               talkList.getItems().remove(talkElementPane);
+              $("info_pane_box", Pane.class).getChildren().clear();
+              $("info_pane_box", Pane.class).setUserData(null);
+              $("info_name", Label.class).setText("");
+              talkElement.infoBoxList().getItems().clear();
               talkElement.clearMsgSketch();
+              chatEvent.doEventDelTalkUser(super.userId, talkId);
             });
   }
 
@@ -307,16 +314,13 @@ public class ChatController extends ChatInit implements IChatMethod {
   @Override
   public void addFriendUser(
       boolean selected, String userFriendId, String userFriendNickName, String userFriendHead) {
-    // 创建了好友元素，并填充到好友列表中
     ElementFriendUser friendUser =
         new ElementFriendUser(userFriendId, userFriendNickName, userFriendHead);
     Pane pane = friendUser.pane();
-
     // 添加到好友列表
     ListView<Pane> userListView = $("userListView", ListView.class);
     ObservableList<Pane> items = userListView.getItems();
     items.add(pane);
-    // 设置高度
     userListView.setPrefHeight(80 * items.size());
     $("friendUserList", Pane.class).setPrefHeight(80 * items.size());
     // 选中
@@ -348,5 +352,20 @@ public class ChatController extends ChatInit implements IChatMethod {
           chatView.setContentPaneBox(userFriendId, userFriendNickName, detailContent);
         });
     chatView.setContentPaneBox(userFriendId, userFriendNickName, detailContent);
+  }
+
+  @Override
+  public void addLuckFriend(String userId, String userNickName, String userHead, Integer status) {
+    ElementFriendLuckUser friendLuckUser = new ElementFriendLuckUser(userId, userNickName, userHead, status);
+    Pane pane = friendLuckUser.pane();
+    // 添加到好友列表
+    ListView<Pane> friendLuckListView = $("friendLuckListView", ListView.class);
+    ObservableList<Pane> items = friendLuckListView.getItems();
+    items.add(pane);
+    // 点击事件
+    friendLuckUser.statusLabel().setOnMousePressed(event -> {
+      chatEvent.doEventAddLuckUser(super.userId, userId);
+    });
+
   }
 }

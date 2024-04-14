@@ -38,7 +38,6 @@ public abstract class ChatInit extends UIObject {
 
   ChatInit(IChatEvent chatEvent) {
     this.chatEvent = chatEvent;
-
     try {
       root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(RESOURCE_NAME)));
     } catch (IOException e) {
