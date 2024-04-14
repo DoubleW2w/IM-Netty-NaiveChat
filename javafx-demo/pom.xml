@@ -17,6 +17,7 @@
         <module>naive-chat-ui-06</module>
         <module>naive-chat-ui-07</module>
         <module>naive-chat-ui-08</module>
+        <module>naive-chat-ui-09</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
