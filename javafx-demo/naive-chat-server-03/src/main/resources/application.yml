@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+netty:
+  ip: 127.0.0.1
+  port: 7397
+
+spring:
+  ## 页面配置
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/itstack?useUnicode=true&characterEncoding=utf8
+    password: root
+    username: root
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location:  classpath:/mybatis/config/mybatis-config.xml
