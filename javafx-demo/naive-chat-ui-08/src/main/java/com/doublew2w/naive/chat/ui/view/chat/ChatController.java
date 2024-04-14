@@ -7,6 +7,8 @@ import com.doublew2w.naive.chat.ui.view.chat.data.RemindCount;
 import com.doublew2w.naive.chat.ui.view.chat.data.TalkData;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_chat.ElementInfoBox;
 import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_chat.ElementTalk;
+import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendGroup;
+import com.doublew2w.naive.chat.ui.view.chat.element.group_bar_friend.ElementFriendUser;
 import java.util.Date;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -40,7 +42,7 @@ public class ChatController extends ChatInit implements IChatMethod {
 
   @Override
   public void initEventDefine() {
-    chatEventDefine = new ChatEventDefine(this,chatEvent,this);
+    chatEventDefine = new ChatEventDefine(this, chatEvent, this);
   }
 
   @Override
@@ -54,7 +56,8 @@ public class ChatController extends ChatInit implements IChatMethod {
     super.userNickName = userNickName;
     super.userHead = userHead;
     Button button = $("bar_portrait", Button.class);
-    button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
+    button.setStyle(
+        String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
   }
 
   @Override
@@ -168,7 +171,9 @@ public class ChatController extends ChatInit implements IChatMethod {
 
   /**
    * 填充对话框消息内容
-   * <p> 点击任何一个对话框，都会把对话框绑定的聊天框填充到右侧。也就是ID：info_pane_box
+   *
+   * <p>点击任何一个对话框，都会把对话框绑定的聊天框填充到右侧。也就是ID：info_pane_box
+   *
    * @param talkElement 对话框元素
    * @param talkName 对话名称
    */
@@ -205,9 +210,18 @@ public class ChatController extends ChatInit implements IChatMethod {
     if (super.userId.equals(userId)) return;
     ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
     if (null == talkElement) {
-      GroupsData groupsData = (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
+      GroupsData groupsData =
+          (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
       if (null == groupsData) return;
-      addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
+      addTalkBox(
+          0,
+          1,
+          talkId,
+          groupsData.getGroupName(),
+          groupsData.getGroupHead(),
+          userNickName + "：" + msg,
+          msgDate,
+          false);
       talkElement = CacheUtil.talkMap.get(talkId);
       // 事件通知(开启与群组发送消息)
       System.out.println("事件通知(开启与群组发送消息)");
@@ -221,10 +235,10 @@ public class ChatController extends ChatInit implements IChatMethod {
     listView.scrollTo(left);
     talkElement.fillMsgSketch(userNickName + "：" + msg, msgDate);
     // 设置位置&选中
-    chatView.updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    chatView.updateTalkListIdxAndSelected(
+        1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
     // 填充对话框聊天窗口
     fillInfoBox(talkElement, talkData.getTalkName());
-
   }
 
   @Override
@@ -247,6 +261,55 @@ public class ChatController extends ChatInit implements IChatMethod {
     listView.scrollTo(right);
     talkElement.fillMsgSketch(msg, msgData);
     // 设置位置&选中
-    chatView.updateTalkListIdxAndSelected(0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    chatView.updateTalkListIdxAndSelected(
+        0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+  }
+
+  @Override
+  public void addFriendGroup(String groupId, String groupName, String groupHead) {
+    // 添加到群组列表
+    ListView<Pane> groupListView = $("groupListView", ListView.class);
+    ObservableList<Pane> items = groupListView.getItems();
+    // 1.创建群组元素，并填充到群组列表中
+    ElementFriendGroup elementFriendGroup = new ElementFriendGroup(groupId, groupName, groupHead);
+    Pane groupPane = elementFriendGroup.pane();
+    items.add(groupPane);
+    // 设置目前的高度：固定值×元素个数
+    groupListView.setPrefHeight(80 * items.size());
+    $("friendGroupList", Pane.class).setPrefHeight(80 * items.size());
+
+    // 添加监听事件：点击整个元素，会清空其他列表的选中
+    groupPane.setOnMousePressed(
+        event -> {
+          clearViewListSelectedAll(
+              $("friendList", ListView.class), $("userListView", ListView.class));
+        });
+  }
+
+  @Override
+  public void addFriendUser(
+      boolean selected, String userFriendId, String userFriendNickName, String userFriendHead) {
+    // 创建了好友元素，并填充到好友列表中
+    ElementFriendUser friendUser =
+        new ElementFriendUser(userFriendId, userFriendNickName, userFriendHead);
+    Pane pane = friendUser.pane();
+
+    // 添加到好友列表
+    ListView<Pane> userListView = $("userListView", ListView.class);
+    ObservableList<Pane> items = userListView.getItems();
+    items.add(pane);
+    // 设置高度
+    userListView.setPrefHeight(80 * items.size());
+    $("friendUserList", Pane.class).setPrefHeight(80 * items.size());
+    // 选中
+    if (selected) {
+      userListView.getSelectionModel().select(pane);
+    }
+    // 添加监听事件：点击整个元素，会清空其他列表的选中
+    pane.setOnMousePressed(
+        event -> {
+          clearViewListSelectedAll(
+              $("friendList", ListView.class), $("groupListView", ListView.class));
+        });
   }
 }

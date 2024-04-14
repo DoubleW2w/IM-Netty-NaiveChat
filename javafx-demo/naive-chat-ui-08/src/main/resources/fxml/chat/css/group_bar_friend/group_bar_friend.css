@@ -5,7 +5,10 @@
 @import "chat_operation.css";
 @import "chat_search.css";
 
-#group_bar_friend{
-   -fx-background-color:transparent;
-   -fx-border-width:0;
+/**
+背景色我们设置为黄色，最终开发完成后会设置为透明色。
+ */
+#group_bar_friend {
+    -fx-background-color: yellow;
+    -fx-border-width: 0;
 }

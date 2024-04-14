@@ -16,11 +16,12 @@
                 prefWidth="30"/>
 
         <!-- 好友 -->
-        <Button id="bar_friend" layoutX="23" layoutY="160" mnemonicParsing="false" prefHeight="30"
-                prefWidth="30"/>
+        <Button id="bar_friend" layoutX="23" layoutY="160" mnemonicParsing="false"
+                prefHeight="30" prefWidth="30"/>
 
         <!-- 广场 -->
-        <Button id="bar_location" layoutX="23" layoutY="220" mnemonicParsing="false" prefHeight="30"
+        <Button id="bar_location" layoutX="23" layoutY="220" mnemonicParsing="false"
+                prefHeight="30"
                 prefWidth="30"/>
 
         <!-- 设置 -->
@@ -82,6 +83,29 @@
 
     <!-- 组；group_bar_friend -->
     <Pane visible="false" id="group_bar_friend" layoutX="76" layoutY="1" prefWidth="1166"
-          prefHeight="818" style="-fx-background-color:yellow;">
+          prefHeight="818">
+        <!-- 操作栏；最小化、关闭 -->
+        <Pane id="operation" layoutX="314" prefWidth="852" prefHeight="32">
+            <Button id="group_bar_friend_min" styleClass="min" layoutX="767"
+                    prefWidth="42" prefHeight="32"/>
+            <Button id="group_bar_friend_close" styleClass="close" layoutX="810"
+                    prefWidth="42" prefHeight="32"/>
+        </Pane>
+        <!-- 搜索栏 -->
+        <Pane styleClass="search" prefHeight="80" prefWidth="314">
+            <TextField styleClass="searchInput" layoutX="20" layoutY="30" prefHeight="30"
+                       prefWidth="240" promptText="搜索">
+                <padding>
+                    <Insets left="30"/>
+                </padding>
+            </TextField>
+            <Label styleClass="searchAdd" layoutX="270" layoutY="30" prefHeight="30"
+                   prefWidth="30"/>
+        </Pane>
+        <!-- 好友栏 -->
+        <Pane id="friend" layoutY="80" prefHeight="738" prefWidth="314">
+            <ListView id="friendList" prefHeight="738" prefWidth="314"
+                      styleClass="friendListStyle"/>
+        </Pane>
     </Pane>
 </Pane>
