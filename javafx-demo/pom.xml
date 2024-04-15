@@ -22,6 +22,7 @@
         <module>naive-chat-server-02</module>
         <module>naive-chat-server-03</module>
         <module>naive-chat-server-04</module>
+        <module>naive-chat-server-05</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -53,10 +54,15 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- <dependency> -->
+        <!--     <groupId>org.slf4j</groupId> -->
+        <!--     <artifactId>slf4j-api</artifactId> -->
+        <!--     <version>2.0.5</version> -->
+        <!-- </dependency> -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.5</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
