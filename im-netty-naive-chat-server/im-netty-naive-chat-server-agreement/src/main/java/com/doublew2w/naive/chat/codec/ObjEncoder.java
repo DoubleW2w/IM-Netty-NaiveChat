@@ -17,9 +17,11 @@ public class ObjEncoder extends MessageToByteEncoder<Packet> {
   protected void encode(ChannelHandlerContext channelHandlerContext, Packet in, ByteBuf out)
       throws Exception {
     byte[] data = SerializationUtil.serialize(in);
+    // 写入缓存区的长度为 data+1（包含了指令的一个字节）
     out.writeInt(data.length + 1);
     // 添加指令，让对象有固定的标识
     out.writeByte(in.getCommand());
+    // 添加对象
     out.writeBytes(data);
   }
 }

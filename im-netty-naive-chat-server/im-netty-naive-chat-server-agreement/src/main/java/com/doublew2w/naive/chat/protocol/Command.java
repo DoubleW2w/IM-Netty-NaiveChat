@@ -8,6 +8,9 @@ package com.doublew2w.naive.chat.protocol;
  * @date: 2024/4/16 16:51
  * @project: IM-Netty-NaiveChat
  */
-public class Command {
+public interface Command {
 
+  Byte LoginRequest = 1;
+  Byte LoginResponse = 2;
+  Byte ReconnectRequest = 3;
 }

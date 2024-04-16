@@ -1,5 +1,7 @@
 package com.doublew2w.naive.chat.protocol;
 
+import com.doublew2w.naive.chat.protocol.login.LoginRequest;
+import com.doublew2w.naive.chat.protocol.login.LoginResponse;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,8 +15,9 @@ public abstract class Packet {
   private static final Map<Byte, Class<? extends Packet>> packetType = new ConcurrentHashMap<>();
 
   static {
-//    packetType.put(Command.Demo01, Demo01.class);
-  }
+		packetType.put(Command.LoginRequest, LoginRequest.class);
+		packetType.put(Command.LoginResponse, LoginResponse.class);
+	}
 	public static Class<? extends Packet> get(Byte command) {
 		return packetType.get(command);
 	}

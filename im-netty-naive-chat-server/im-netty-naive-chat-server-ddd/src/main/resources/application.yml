@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+netty:
+  ip: 127.0.0.1
+  port: 7397
+
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/itstack?useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  check-config-location: true
+  mapper-locations: classpath:mybatis/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+    return-instance-for-empty-row: true
