@@ -1,10 +1,12 @@
 package com.doublew2w.naive.chat.domain.user.service;
 
-import cn.hutool.core.thread.ThreadUtil;
 import com.doublew2w.naive.chat.application.UserService;
-import com.doublew2w.naive.chat.domain.user.model.UserInfo;
+import com.doublew2w.naive.chat.domain.user.model.*;
 import com.doublew2w.naive.chat.domain.user.repository.IUserRepository;
+import com.doublew2w.naive.chat.infrastructure.po.UserFriend;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.annotation.Resource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,15 @@ import org.springframework.stereotype.Service;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-  @Resource private IUserRepository userRepository;
-  @Resource private ThreadPoolTaskExecutor taskExecutor;
 
-  // 默认线程池
-  private static final ExecutorService executorService =
-      ThreadUtil.newFixedExecutor(4, "userService", true);
+  @Resource
+  private IUserRepository userRepository;
+  @Resource
+  private ThreadPoolTaskExecutor taskExecutor;
+
+  //默认线程池
+  private static ExecutorService executorService = Executors.newFixedThreadPool(4);
+
 
   @Override
   public boolean checkAuth(String userId, String userPassword) {
@@ -34,4 +39,66 @@ public class UserServiceImpl implements UserService {
   public UserInfo queryUserInfo(String userId) {
     return userRepository.queryUserInfo(userId);
   }
+
+  @Override
+  public List<TalkBoxInfo> queryTalkBoxInfoList(String userId) {
+    return userRepository.queryTalkBoxInfoList(userId);
+  }
+
+  @Override
+  public void addTalkBoxInfo(String userId, String talkId, Integer talkType) {
+    userRepository.addTalkBoxInfo(userId, talkId, talkType);
+  }
+
+  @Override
+  public List<UserFriendInfo> queryUserFriendInfoList(String userId) {
+    return userRepository.queryUserFriendInfoList(userId);
+  }
+
+  @Override
+  public List<GroupsInfo> queryUserGroupInfoList(String userId) {
+    return userRepository.queryUserGroupInfoList(userId);
+  }
+
+  @Override
+  public List<LuckUserInfo> queryFuzzyUserInfoList(String userId, String searchKey) {
+    return userRepository.queryFuzzyUserInfoList(userId, searchKey);
+  }
+
+  @Override
+  public void addUserFriend(List<UserFriend> userFriendList) {
+    userRepository.addUserFriend(userFriendList);
+  }
+
+
+  @Override
+  public void asyncAppendChatRecord(final ChatRecordInfo chatRecordInfo) {
+    taskExecutor.execute(new Runnable() {
+      @Override
+      public void run() {
+        userRepository.appendChatRecord(chatRecordInfo);
+      }
+    });
+  }
+
+  @Override
+  public List<ChatRecordInfo> queryChatRecordInfoList(String talkId, String userId, Integer talkType) {
+    return userRepository.queryChatRecordInfoList(talkId, userId, talkType);
+  }
+
+  @Override
+  public void deleteUserTalk(String userId, String talkId) {
+    userRepository.deleteUserTalk(userId, talkId);
+  }
+
+  @Override
+  public List<String> queryUserGroupsIdList(String userId) {
+    return userRepository.queryUserGroupsIdList(userId);
+  }
+
+  @Override
+  public List<String> queryTalkBoxGroupsIdList(String userId) {
+    return userRepository.queryTalkBoxGroupsIdList(userId);
+  }
+
 }
