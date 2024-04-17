@@ -1,8 +1,9 @@
 package com.doublew2w.naive.chat;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.doublew2w.naive.chat.socket.NettyServer;
 import io.netty.channel.Channel;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 
-  private Logger logger = LoggerFactory.getLogger(Application.class);
+  private final Logger logger = LoggerFactory.getLogger(Application.class);
 
   @Resource private NettyServer nettyServer;
 
@@ -31,9 +32,12 @@ public class Application extends SpringBootServletInitializer implements Command
   @Override
   public void run(String... args) throws Exception {
     logger.info("NettyServer启动服务开始 port：7397");
-    Future<Channel> future = Executors.newFixedThreadPool(2).submit(nettyServer);
+    ExecutorService executorService = ThreadUtil.newFixedExecutor(2, "netty-server", true);
+    Future<Channel> future =  executorService.submit(nettyServer);
     Channel channel = future.get();
-    if (null == channel) throw new RuntimeException("netty server start error channel is null");
+    if (null == channel) {
+      throw new RuntimeException("netty server start error channel is null");
+    }
 
     while (!channel.isActive()) {
       logger.info("NettyServer启动服务 ...");

@@ -1,16 +1,16 @@
-package com.doublew2w.naive.chat.protocol.login.dto;
+package com.doublew2w.naive.chat.domain.user.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * @author: DoubleW2w
- * @date: 2024/4/16 23:25
+ * @date: 2024/4/17 14:13
  * @project: IM-Netty-NaiveChat
  */
 @Setter
 @Getter
-public class UserFriendDto {
+public class UserFriendInfo {
   /** 好友ID */
   private String friendId;
 

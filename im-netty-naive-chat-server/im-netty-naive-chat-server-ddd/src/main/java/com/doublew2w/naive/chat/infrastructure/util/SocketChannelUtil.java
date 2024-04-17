@@ -1,11 +1,11 @@
-package com.doublew2w.naive.chat.infrastructure.common;
+package com.doublew2w.naive.chat.infrastructure.util;
 
+import cn.hutool.core.map.SafeConcurrentHashMap;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author: DoubleW2w
@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SocketChannelUtil {
   // 用户
-  private static Map<String, Channel> userChannel = new ConcurrentHashMap<>();
-  private static Map<String, String> userChannelId = new ConcurrentHashMap<>();
+  private static Map<String, Channel> userChannel = new SafeConcurrentHashMap<>();
+  private static Map<String, String> userChannelId = new SafeConcurrentHashMap<>();
   // 群组
-  private static Map<String, ChannelGroup> channelGroupMap = new ConcurrentHashMap<>();
+  private static Map<String, ChannelGroup> channelGroupMap = new SafeConcurrentHashMap<>();
 
   public static void addChannel(String userId, Channel channel) {
     userChannel.put(userId, channel);
@@ -26,7 +26,9 @@ public class SocketChannelUtil {
 
   public static void removeChannel(String channelId) {
     String userId = userChannelId.get(channelId);
-    if (null == userId) return;
+    if (null == userId) {
+        return;
+    }
     userChannel.remove(userId);
   }
 

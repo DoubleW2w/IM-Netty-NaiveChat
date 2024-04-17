@@ -10,8 +10,7 @@
  * <p>external 依赖的外部服务接口
  *
  * @author: DoubleW2w
- * @description:
- * @date: 2024/4/14 19:33
+ * @date: 2024/4/17 12:36
  * @project: IM-Netty-NaiveChat
  */
 package com.doublew2w.naive.chat.domain;

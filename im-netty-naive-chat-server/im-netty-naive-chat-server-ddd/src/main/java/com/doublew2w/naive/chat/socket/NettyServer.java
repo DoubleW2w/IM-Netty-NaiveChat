@@ -31,7 +31,7 @@ public class NettyServer implements Callable<Channel> {
   @Resource private UserService userService;
 
   @Override
-  public Channel call() throws Exception {
+  public Channel call() {
     ChannelFuture channelFuture = null;
     try {
       ServerBootstrap b = new ServerBootstrap();
@@ -53,8 +53,13 @@ public class NettyServer implements Callable<Channel> {
     return channel;
   }
 
+  /**
+   * 关闭
+   */
   public void destroy() {
-    if (null == channel) return;
+    if (null == channel) {
+	    return;
+    }
     channel.close();
     parentGroup.shutdownGracefully();
     childGroup.shutdownGracefully();
