@@ -9,17 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 登录事件实现
+ *
  * @author: DoubleW2w
  * @date: 2024/4/17 14:37
  * @project: IM-Netty-NaiveChat
  */
 public class LoginEvent implements ILoginEvent {
-    private Logger logger = LoggerFactory.getLogger(LoginEvent.class);
+  private Logger logger = LoggerFactory.getLogger(LoginEvent.class);
 
-    @Override
-    public void doLoginCheck(String userId, String userPassword) {
-        Channel channel = BeanUtil.getBean("channel", Channel.class);
-        channel.writeAndFlush(new LoginRequest(userId, userPassword));
-        CacheUtil.userId = userId;
-    }
+  @Override
+  public void doLoginCheck(String userId, String userPassword) {
+    Channel channel = BeanUtil.getBean("channel", Channel.class);
+    channel.writeAndFlush(new LoginRequest(userId, userPassword));
+    CacheUtil.userId = userId;
+  }
 }

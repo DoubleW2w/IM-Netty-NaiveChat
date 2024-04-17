@@ -1,6 +1,6 @@
 package com.doublew2w.naive.chat.protocol.login.dto;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +29,8 @@ public class ChatTalkDto {
   private String talkSketch;
 
   /** 消息时间 */
-  private LocalDateTime talkDate;
-  /**
-   * 聊天记录
-   */
-  private List<ChatRecordDto> chatRecordList;
+  private Date talkDate;
 
+  /** 聊天记录 */
+  private List<ChatRecordDto> chatRecordList;
 }

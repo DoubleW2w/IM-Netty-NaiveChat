@@ -15,17 +15,18 @@ public abstract class Packet {
   private static final Map<Byte, Class<? extends Packet>> packetType = new ConcurrentHashMap<>();
 
   static {
-		packetType.put(Command.LoginRequest, LoginRequest.class);
-		packetType.put(Command.LoginResponse, LoginResponse.class);
-	}
-	public static Class<? extends Packet> get(Byte command) {
-		return packetType.get(command);
-	}
+    packetType.put(Command.LoginRequest, LoginRequest.class);
+    packetType.put(Command.LoginResponse, LoginResponse.class);
+  }
 
-	/**
-	 * 获取协议指令
-	 *
-	 * @return 返回指令值
-	 */
-	public abstract Byte getCommand();
+  public static Class<? extends Packet> get(Byte command) {
+    return packetType.get(command);
+  }
+
+  /**
+   * 获取协议指令
+   *
+   * @return 返回指令值
+   */
+  public abstract Byte getCommand();
 }

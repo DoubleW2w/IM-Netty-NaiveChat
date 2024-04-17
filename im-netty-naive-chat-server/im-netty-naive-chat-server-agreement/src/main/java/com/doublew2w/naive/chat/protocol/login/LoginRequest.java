@@ -21,6 +21,11 @@ public class LoginRequest extends Packet {
   /** 用户密码 */
   private String userPassword;
 
+  public LoginRequest(String userId, String userPassword) {
+    this.userId = userId;
+    this.userPassword = userPassword;
+  }
+
   @Override
   public Byte getCommand() {
     return Command.LoginRequest;

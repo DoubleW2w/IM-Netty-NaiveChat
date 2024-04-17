@@ -16,6 +16,10 @@ public class ReconnectRequest extends Packet {
   /** 用户Id */
   private String userId;
 
+  public ReconnectRequest(String userId) {
+    this.userId = userId;
+  }
+
   @Override
   public Byte getCommand() {
     return Command.ReconnectRequest;
