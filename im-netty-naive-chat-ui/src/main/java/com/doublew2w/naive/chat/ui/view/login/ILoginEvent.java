@@ -1,7 +1,7 @@
 package com.doublew2w.naive.chat.ui.view.login;
 
 /**
- * UI-登录接口定义，外部给予实现
+ * UI-登录窗体事件接口
  *
  * @author: DoubleW2w
  * @date: 2024/4/17 14:39
