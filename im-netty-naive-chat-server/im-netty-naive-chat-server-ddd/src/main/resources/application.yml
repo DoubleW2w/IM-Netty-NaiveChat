@@ -20,5 +20,16 @@ mybatis:
   mapper-locations: classpath:mybatis/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
     return-instance-for-empty-row: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com:
+      doublew2w:
+        naive:
+          chat:
+            ddd:
+              - info
+              - infrastructure:
+                  dao: debug
+

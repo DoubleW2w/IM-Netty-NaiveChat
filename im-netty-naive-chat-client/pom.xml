@@ -89,7 +89,7 @@
                 <version>8.8.3</version>
                 <configuration>
                     <!-- 缺少一个启动类 -->
-                    <!-- <mainClass></mainClass> -->
+                    <mainClass>com.doublew2w.naive.chat.client.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
