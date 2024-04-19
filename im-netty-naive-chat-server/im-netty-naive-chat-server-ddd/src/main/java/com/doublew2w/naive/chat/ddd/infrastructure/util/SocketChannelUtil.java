@@ -13,10 +13,15 @@ import java.util.Map;
  * @project: IM-Netty-NaiveChat
  */
 public class SocketChannelUtil {
-  // 用户
+  /**
+   * 用户-通道绑定
+   */
   private static Map<String, Channel> userChannel = new SafeConcurrentHashMap<>();
+  /**
+   * 用户-通道id
+   */
   private static Map<String, String> userChannelId = new SafeConcurrentHashMap<>();
-  // 群组
+  // 通道-通道
   private static Map<String, ChannelGroup> channelGroupMap = new SafeConcurrentHashMap<>();
 
   public static void addChannel(String userId, Channel channel) {

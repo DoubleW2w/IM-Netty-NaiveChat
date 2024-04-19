@@ -27,6 +27,7 @@ public class NettyClient implements Callable<Channel> {
   private final EventLoopGroup workerGroup = new NioEventLoopGroup();
   private Channel channel;
 
+  /** UI服务 */
   private UIService uiService;
 
   public NettyClient(UIService uiService) {
@@ -36,17 +37,18 @@ public class NettyClient implements Callable<Channel> {
   @Override
   public Channel call() throws Exception {
     ChannelFuture channelFuture = null;
-    try{
+    try {
       Bootstrap b = new Bootstrap();
       b.group(workerGroup)
           .channel(NioSocketChannel.class)
-          .option(ChannelOption.AUTO_READ,true)
+          .option(ChannelOption.AUTO_READ, true)
           .handler(new MyChannelInitializer(uiService));
-       channelFuture = b.connect(inetHost, inetPort).syncUninterruptibly();
+      channelFuture = b.connect(inetHost, inetPort).syncUninterruptibly();
       this.channel = channelFuture.channel();
+      // 添加通道缓存
       BeanUtil.addBean("channel", channel);
     } catch (Exception e) {
-      logger.error("socket client start error:{}", e.getMessage(),e);
+      logger.error("socket client start error:{}", e.getMessage(), e);
     } finally {
       if (null != channelFuture && channelFuture.isSuccess()) {
         logger.info("socket client start done. ");
@@ -63,7 +65,7 @@ public class NettyClient implements Callable<Channel> {
     workerGroup.shutdownGracefully();
   }
 
-  public boolean isActive(){
+  public boolean isActive() {
     return channel.isActive();
   }
 

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 添加好友请求
+ * 添加好友请求类
  *
  * @author: DoubleW2w
  * @date: 2024/4/17 22:52

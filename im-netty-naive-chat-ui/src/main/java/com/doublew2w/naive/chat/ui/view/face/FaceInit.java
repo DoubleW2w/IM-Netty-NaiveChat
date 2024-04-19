@@ -5,6 +5,7 @@ import com.doublew2w.naive.chat.ui.view.chat.ChatInit;
 import com.doublew2w.naive.chat.ui.view.chat.IChatEvent;
 import com.doublew2w.naive.chat.ui.view.chat.IChatMethod;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ public abstract class FaceInit extends UIObject {
 
     FaceInit(final UIObject obj) {
         try {
-            root = FXMLLoader.load(getClass().getResource(RESOURCE_NAME));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(RESOURCE_NAME)));
         } catch (IOException e) {
             e.printStackTrace();
         }

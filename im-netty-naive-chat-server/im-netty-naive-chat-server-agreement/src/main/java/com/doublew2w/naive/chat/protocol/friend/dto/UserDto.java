@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * 好友相关请求传输类
+ *
  * @author: DoubleW2w
  * @date: 2024/4/17 22:52
  * @project: IM-Netty-NaiveChat
@@ -11,11 +13,17 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserDto {
+  /** 用户ID */
+  private String userId;
 
-  private String userId; // 用户ID
-  private String userNickName; // 用户昵称
-  private String userHead; // 用户头像
-  private Integer status; // 状态；0添加、1[保留]、2已添加
+  /** 用户昵称 */
+  private String userNickName;
+
+  /** 用户头像 */
+  private String userHead;
+
+  /** 状态；0添加、1[保留]、2已添加 */
+  private Integer status;
 
   public UserDto() {}
 

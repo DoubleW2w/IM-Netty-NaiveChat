@@ -49,7 +49,7 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
     for (String groupId : groupsIdList) {
       SocketChannelUtil.addChannelGroup(groupId, channel);
     }
-    // 3. 反馈消息；用户信息、用户对话框列表、好友列表、群组列表
+    // 3. 响应消息；用户信息、用户对话框列表、好友列表、群组列表
     // 组装消息包
     LoginResponse loginResponse = new LoginResponse();
     // 3.1 用户信息
@@ -66,10 +66,12 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
       chatTalk.setTalkDate(talkBoxInfo.getTalkDate());
       loginResponse.getChatTalkList().add(chatTalk);
 
-      // 好友；聊天消息
       if (Constants.TalkType.Friend.getCode().equals(talkBoxInfo.getTalkType())) {
+        // 好友；聊天消息
         List<ChatRecordDto> chatRecordDtoList = new ArrayList<>();
-        List<ChatRecordInfo> chatRecordInfoList = userService.queryChatRecordInfoList(talkBoxInfo.getTalkId(), msg.getUserId(), Constants.TalkType.Friend.getCode());
+        List<ChatRecordInfo> chatRecordInfoList =
+            userService.queryChatRecordInfoList(
+                talkBoxInfo.getTalkId(), msg.getUserId(), Constants.TalkType.Friend.getCode());
         for (ChatRecordInfo chatRecordInfo : chatRecordInfoList) {
           ChatRecordDto chatRecordDto = new ChatRecordDto();
           chatRecordDto.setTalkId(talkBoxInfo.getTalkId());
@@ -90,11 +92,12 @@ public class LoginHandler extends MyBizHandler<LoginRequest> {
           chatRecordDtoList.add(chatRecordDto);
         }
         chatTalk.setChatRecordList(chatRecordDtoList);
-      }
-      // 群组；聊天消息
-      else if (Constants.TalkType.Group.getCode().equals(talkBoxInfo.getTalkType())) {
+      } else if (Constants.TalkType.Group.getCode().equals(talkBoxInfo.getTalkType())) {
+        // 群组；聊天消息
         List<ChatRecordDto> chatRecordDtoList = new ArrayList<>();
-        List<ChatRecordInfo> chatRecordInfoList = userService.queryChatRecordInfoList(talkBoxInfo.getTalkId(), msg.getUserId(), Constants.TalkType.Group.getCode());
+        List<ChatRecordInfo> chatRecordInfoList =
+            userService.queryChatRecordInfoList(
+                talkBoxInfo.getTalkId(), msg.getUserId(), Constants.TalkType.Group.getCode());
         for (ChatRecordInfo chatRecordInfo : chatRecordInfoList) {
           UserInfo memberInfo = userService.queryUserInfo(chatRecordInfo.getUserId());
           ChatRecordDto chatRecordDto = new ChatRecordDto();

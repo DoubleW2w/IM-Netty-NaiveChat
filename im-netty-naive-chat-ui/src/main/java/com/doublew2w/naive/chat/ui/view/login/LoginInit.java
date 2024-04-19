@@ -2,6 +2,7 @@ package com.doublew2w.naive.chat.ui.view.login;
 
 import com.doublew2w.naive.chat.ui.view.UIObject;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,7 +44,7 @@ public abstract class LoginInit extends UIObject {
   LoginInit(ILoginEvent loginEvent) {
     this.loginEvent = loginEvent;
     try {
-      root = FXMLLoader.load(getClass().getResource(RESOURCE_NAME));
+      root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(RESOURCE_NAME)));
     } catch (IOException e) {
       e.printStackTrace();
     }
