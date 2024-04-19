@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.doublew2w</groupId>
         <artifactId>im-netty-naive-chat-server</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <packaging>jar</packaging>
     <artifactId>im-netty-naive-chat-server-agreement</artifactId>
