@@ -2,7 +2,7 @@ package com.doublew2w.naive.chat.protocol.friend;
 
 import com.doublew2w.naive.chat.protocol.Command;
 import com.doublew2w.naive.chat.protocol.Packet;
-import com.doublew2w.naive.chat.protocol.friend.dto.UserDto;
+import com.doublew2w.naive.chat.protocol.friend.dto.SearchUserDto;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 public class SearchFriendResponse extends Packet {
 
-  private List<UserDto> list;
+  private List<SearchUserDto> list;
 
   @Override
   public Byte getCommand() {

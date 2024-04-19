@@ -5,8 +5,6 @@ import com.doublew2w.naive.chat.ddd.domain.user.model.*;
 import com.doublew2w.naive.chat.ddd.domain.user.repository.IUserRepository;
 import com.doublew2w.naive.chat.ddd.infrastructure.po.UserFriend;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javax.annotation.Resource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,6 @@ public class UserServiceImpl implements UserService {
 
   @Resource private IUserRepository userRepository;
   @Resource private ThreadPoolTaskExecutor taskExecutor;
-
-  // 默认线程池
-  private static ExecutorService executorService = Executors.newFixedThreadPool(4);
 
   @Override
   public boolean checkAuth(String userId, String userPassword) {

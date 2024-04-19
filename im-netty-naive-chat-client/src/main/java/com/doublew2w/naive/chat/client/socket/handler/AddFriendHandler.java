@@ -21,10 +21,9 @@ public class AddFriendHandler extends MyBizHandler<AddFriendResponse> {
   @Override
   public void channelRead(Channel channel, AddFriendResponse msg) {
     IChatMethod chat = uiService.getChat();
-    Platform.runLater(() -> {
-      chat.addFriendUser(true, msg.getFriendId(), msg.getFriendNickName(), msg.getFriendHead());
-    });
+    Platform.runLater(
+        () -> {
+          chat.addFriendUser(true, msg.getFriendId(), msg.getFriendNickName(), msg.getFriendHead());
+        });
   }
-
 }
-

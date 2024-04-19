@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class Application extends javafx.application.Application {
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) {
     IChatMethod chat =
         new ChatController(
             new IChatEvent() {
@@ -115,10 +115,9 @@ public class Application extends javafx.application.Application {
 
     ILoginMethod login =
         new LoginController(
-            (userId, userPassword) -> {
-              System.out.println("登陆 userId：" + userId + "userPassword：" + userPassword);
-            },
+            (userId, userPassword) -> System.out.println("登陆 userId：" + userId + "userPassword：" + userPassword),
             chat);
+    login.doShow();
   }
 
   public static void main(String[] args) {

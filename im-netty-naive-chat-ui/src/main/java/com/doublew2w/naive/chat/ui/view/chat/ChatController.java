@@ -53,11 +53,20 @@ public class ChatController extends ChatInit implements IChatMethod {
     super.userNickName = userNickName;
     super.userHead = userHead;
     Button button = $("bar_portrait", Button.class);
-    button.setStyle(String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
+    button.setStyle(
+        String.format("-fx-background-image: url('/fxml/chat/img/head/%s.png')", userHead));
   }
 
   @Override
-  public void addTalkBox(int talkIdx, Integer talkType, String talkId, String talkName, String talkHead, String talkSketch, Date talkDate, Boolean selected) {
+  public void addTalkBox(
+      int talkIdx,
+      Integer talkType,
+      String talkId,
+      String talkName,
+      String talkHead,
+      String talkSketch,
+      Date talkDate,
+      Boolean selected) {
     // 填充到对话框
     ListView<Pane> talkList = $("talkList", ListView.class);
     // 判断会话框是否有该对象
@@ -78,55 +87,61 @@ public class ChatController extends ChatInit implements IChatMethod {
       return;
     }
     // 初始化对话框元素
-    ElementTalk talkElement = new ElementTalk(talkId, talkType, talkName, talkHead, talkSketch, talkDate);
+    ElementTalk talkElement =
+        new ElementTalk(talkId, talkType, talkName, talkHead, talkSketch, talkDate);
     CacheUtil.talkMap.put(talkId, talkElement);
     // 填充到对话框
     ObservableList<Pane> items = talkList.getItems();
     Pane talkElementPane = talkElement.pane();
     if (talkIdx >= 0) {
-      items.add(talkIdx, talkElementPane);  // 添加到第一个位置
+      items.add(talkIdx, talkElementPane); // 添加到第一个位置
     } else {
-      items.add(talkElementPane);           // 顺序添加
+      items.add(talkElementPane); // 顺序添加
     }
     if (selected) {
       talkList.getSelectionModel().select(talkElementPane);
     }
     // 对话框元素点击事件
-    talkElementPane.setOnMousePressed(event -> {
-      // 填充消息栏
-      fillInfoBox(talkElement, talkName);
-      // 清除消息提醒
-      Label msgRemind = talkElement.msgRemind();
-      msgRemind.setUserData(new RemindCount(0));
-      msgRemind.setVisible(false);
-    });
+    talkElementPane.setOnMousePressed(
+        event -> {
+          // 填充消息栏
+          fillInfoBox(talkElement, talkName);
+          // 清除消息提醒
+          Label msgRemind = talkElement.msgRemind();
+          msgRemind.setUserData(new RemindCount(0));
+          msgRemind.setVisible(false);
+        });
     // 鼠标事件[移入/移出]
-    talkElementPane.setOnMouseEntered(event -> {
-      talkElement.delete().setVisible(true);
-    });
-    talkElementPane.setOnMouseExited(event -> {
-      talkElement.delete().setVisible(false);
-    });
+    talkElementPane.setOnMouseEntered(
+        event -> {
+          talkElement.delete().setVisible(true);
+        });
+    talkElementPane.setOnMouseExited(
+        event -> {
+          talkElement.delete().setVisible(false);
+        });
     // 填充对话框消息栏
     fillInfoBox(talkElement, talkName);
     // 从对话框中删除
-    talkElement.delete().setOnMouseClicked(event -> {
-      talkList.getItems().remove(talkElementPane);
-      $("info_pane_box", Pane.class).getChildren().clear();
-      $("info_pane_box", Pane.class).setUserData(null);
-      $("info_name", Label.class).setText("");
-      talkElement.infoBoxList().getItems().clear();
-      talkElement.clearMsgSketch();
-      chatEvent.doEventDelTalkUser(super.userId, talkId);
-    });
+    talkElement
+        .delete()
+        .setOnMouseClicked(
+            event -> {
+              talkList.getItems().remove(talkElementPane);
+              $("info_pane_box", Pane.class).getChildren().clear();
+              $("info_pane_box", Pane.class).setUserData(null);
+              $("info_name", Label.class).setText("");
+              talkElement.infoBoxList().getItems().clear();
+              talkElement.clearMsgSketch();
+              chatEvent.doEventDelTalkUser(super.userId, talkId);
+            });
   }
 
   /**
-   * 私有方法
-   * 填充对话框消息内容
+   * 私有方法 填充对话框消息内容
    *
    * @param talkElement 对话框元素
-   * @param talkName    对话框名称
+   * @param talkName 对话框名称
    */
   private void fillInfoBox(ElementTalk talkElement, String talkName) {
     String talkId = talkElement.pane().getUserData().toString();
@@ -145,29 +160,58 @@ public class ChatController extends ChatInit implements IChatMethod {
   }
 
   @Override
-  public void addTalkMsgUserLeft(String talkId, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+  public void addTalkMsgUserLeft(
+      String talkId,
+      String msg,
+      Integer msgType,
+      Date msgDate,
+      Boolean idxFirst,
+      Boolean selected,
+      Boolean isRemind) {
     ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
     ListView<Pane> listView = talkElement.infoBoxList();
     TalkData talkUserData = (TalkData) listView.getUserData();
-    Pane left = new ElementInfoBox().left(talkUserData.getTalkName(), talkUserData.getTalkHead(), msg, msgType);
+    Pane left =
+        new ElementInfoBox()
+            .left(talkUserData.getTalkName(), talkUserData.getTalkHead(), msg, msgType);
     // 消息填充
     listView.getItems().add(left);
     // 滚动条
     listView.scrollTo(left);
     talkElement.fillMsgSketch(0 == msgType ? msg : "[表情]", msgDate);
     // 设置位置&选中
-    chatView.updateTalkListIdxAndSelected(0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    chatView.updateTalkListIdxAndSelected(
+        0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
   }
 
   @Override
-  public void addTalkMsgGroupLeft(String talkId, String userId, String userNickName, String userHead, String msg, Integer msgType, Date msgDate, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+  public void addTalkMsgGroupLeft(
+      String talkId,
+      String userId,
+      String userNickName,
+      String userHead,
+      String msg,
+      Integer msgType,
+      Date msgDate,
+      Boolean idxFirst,
+      Boolean selected,
+      Boolean isRemind) {
     // 自己的消息抛弃
     if (super.userId.equals(userId)) return;
     ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
     if (null == talkElement) {
-      GroupsData groupsData = (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
+      GroupsData groupsData =
+          (GroupsData) $(Ids.ElementTalkId.createFriendGroupId(talkId), Pane.class).getUserData();
       if (null == groupsData) return;
-      addTalkBox(0, 1, talkId, groupsData.getGroupName(), groupsData.getGroupHead(), userNickName + "：" + msg, msgDate, false);
+      addTalkBox(
+          0,
+          1,
+          talkId,
+          groupsData.getGroupName(),
+          groupsData.getGroupHead(),
+          userNickName + "：" + msg,
+          msgDate,
+          false);
       talkElement = CacheUtil.talkMap.get(talkId);
       // 事件通知(开启与群组发送消息)
       chatEvent.doEventAddTalkGroup(super.userId, talkId);
@@ -178,13 +222,22 @@ public class ChatController extends ChatInit implements IChatMethod {
     listView.getItems().add(left);
     // 滚动条
     listView.scrollTo(left);
-    talkElement.fillMsgSketch(0 == msgType ? userNickName + "：" + msg : userNickName + "：[表情]", msgDate);
+    talkElement.fillMsgSketch(
+        0 == msgType ? userNickName + "：" + msg : userNickName + "：[表情]", msgDate);
     // 设置位置&选中
-    chatView.updateTalkListIdxAndSelected(1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    chatView.updateTalkListIdxAndSelected(
+        1, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
   }
 
   @Override
-  public void addTalkMsgRight(String talkId, String msg, Integer msgType, Date msgData, Boolean idxFirst, Boolean selected, Boolean isRemind) {
+  public void addTalkMsgRight(
+      String talkId,
+      String msg,
+      Integer msgType,
+      Date msgData,
+      Boolean idxFirst,
+      Boolean selected,
+      Boolean isRemind) {
     ElementTalk talkElement = CacheUtil.talkMap.get(talkId);
     ListView<Pane> listView = talkElement.infoBoxList();
     Pane right = new ElementInfoBox().right(userNickName, userHead, msg, msgType);
@@ -194,7 +247,8 @@ public class ChatController extends ChatInit implements IChatMethod {
     listView.scrollTo(right);
     talkElement.fillMsgSketch(0 == msgType ? msg : "[表情]", msgData);
     // 设置位置&选中
-    chatView.updateTalkListIdxAndSelected(0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
+    chatView.updateTalkListIdxAndSelected(
+        0, talkElement.pane(), talkElement.msgRemind(), idxFirst, selected, isRemind);
   }
 
   @Override
@@ -225,16 +279,20 @@ public class ChatController extends ChatInit implements IChatMethod {
     children.add(sendMsgButton);
 
     // 添加监听事件
-    pane.setOnMousePressed(event -> {
-      clearViewListSelectedAll($("friendList", ListView.class), $("userListView", ListView.class));
-      chatView.setContentPaneBox(groupId, groupName, detailContent);
-    });
+    pane.setOnMousePressed(
+        event -> {
+          clearViewListSelectedAll(
+              $("friendList", ListView.class), $("userListView", ListView.class));
+          chatView.setContentPaneBox(groupId, groupName, detailContent);
+        });
     chatView.setContentPaneBox(groupId, groupName, detailContent);
   }
 
   @Override
-  public void addFriendUser(boolean selected, String userFriendId, String userFriendNickName, String userFriendHead) {
-    ElementFriendUser friendUser = new ElementFriendUser(userFriendId, userFriendNickName, userFriendHead);
+  public void addFriendUser(
+      boolean selected, String userFriendId, String userFriendNickName, String userFriendHead) {
+    ElementFriendUser friendUser =
+        new ElementFriendUser(userFriendId, userFriendNickName, userFriendHead);
     Pane pane = friendUser.pane();
     // 添加到好友列表
     ListView<Pane> userListView = $("userListView", ListView.class);
@@ -260,28 +318,35 @@ public class ChatController extends ChatInit implements IChatMethod {
     sendMsgButton.setLayoutX(337);
     sendMsgButton.setLayoutY(450);
     sendMsgButton.setText("发送消息");
-    chatEventDefine.doEventOpenFriendUserSendMsg(sendMsgButton, userFriendId, userFriendNickName, userFriendHead);
+    chatEventDefine.doEventOpenFriendUserSendMsg(
+        sendMsgButton, userFriendId, userFriendNickName, userFriendHead);
     children.add(sendMsgButton);
     // 添加监听事件
-    pane.setOnMousePressed(event -> {
-      clearViewListSelectedAll($("friendList", ListView.class), $("groupListView", ListView.class));
-      chatView.setContentPaneBox(userFriendId, userFriendNickName, detailContent);
-    });
+    pane.setOnMousePressed(
+        event -> {
+          clearViewListSelectedAll(
+              $("friendList", ListView.class), $("groupListView", ListView.class));
+          chatView.setContentPaneBox(userFriendId, userFriendNickName, detailContent);
+        });
     chatView.setContentPaneBox(userFriendId, userFriendNickName, detailContent);
   }
 
   @Override
   public void addLuckFriend(String userId, String userNickName, String userHead, Integer status) {
-    ElementFriendLuckUser friendLuckUser = new ElementFriendLuckUser(userId, userNickName, userHead, status);
+    ElementFriendLuckUser friendLuckUser =
+        new ElementFriendLuckUser(userId, userNickName, userHead, status);
     Pane pane = friendLuckUser.pane();
     // 添加到好友列表
     ListView<Pane> friendLuckListView = $("friendLuckListView", ListView.class);
     ObservableList<Pane> items = friendLuckListView.getItems();
     items.add(pane);
     // 点击事件
-    friendLuckUser.statusLabel().setOnMousePressed(event -> {
-      chatEvent.doEventAddLuckUser(super.userId, userId);
-    });
+    friendLuckUser
+        .statusLabel()
+        .setOnMousePressed(
+            event -> {
+              chatEvent.doEventAddLuckUser(super.userId, userId);
+            });
   }
 
   @Override
@@ -293,5 +358,4 @@ public class ChatController extends ChatInit implements IChatMethod {
   public double getToolFaceY() {
     return y() + height() - 180;
   }
-
 }

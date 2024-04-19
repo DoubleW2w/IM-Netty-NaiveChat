@@ -6,7 +6,10 @@ package com.doublew2w.naive.chat.ui.util;
  * @project: IM-Netty-NaiveChat
  */
 public class Ids {
-  /** 对话框元素，好友对话列表框元素 */
+
+  /**
+   * 对话框元素，好友对话列表框元素
+   */
   public static class ElementTalkId {
     public static String createTalkPaneId(String id) {
       return "ElementTalkId_createTalkPaneId_" + id;
@@ -43,5 +46,8 @@ public class Ids {
     public static String createFriendGroupId(String id) {
       return "ElementTalkId_createFriendGroupId_" + id;
     }
+
   }
+
 }
+

@@ -13,10 +13,17 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class ChannelUserInfo {
-  private String userId;       //用户ID
-  private String userNickName; //用户昵称
-  private String userHead;     //用户头像
-  private boolean status;      //状态[true在线、false不在线]
+  /** 用户ID */
+  private String userId;
+
+  /** 用户昵称 */
+  private String userNickName;
+
+  /** 用户头像 */
+  private String userHead;
+
+  /** 状态[true在线、false不在线] */
+  private boolean status;
 
   public ChannelUserInfo(String userId, String userNickName, String userHead, boolean status) {
     this.userId = userId;

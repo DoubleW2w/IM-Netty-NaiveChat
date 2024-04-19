@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
  * @project: IM-Netty-NaiveChat
  */
 public class ChatView {
+
   private ChatInit chatInit;
   private IChatEvent chatEvent;
 

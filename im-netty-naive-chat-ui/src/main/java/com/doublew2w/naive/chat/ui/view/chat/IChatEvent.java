@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
  * @project: IM-Netty-NaiveChat
  */
 public interface IChatEvent {
+
   /** 聊天窗口退出操作 */
   void doQuit();
 

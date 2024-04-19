@@ -15,11 +15,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AddFriendRequest extends Packet {
+  /** 用户ID[自己的ID] */
+  private String userId;
 
-  private String userId; // 用户ID[自己的ID]
-  private String friendId; // 好友ID
-
-  public AddFriendRequest() {}
+  /** 好友ID */
+  private String friendId;
 
   public AddFriendRequest(String userId, String friendId) {
     this.userId = userId;

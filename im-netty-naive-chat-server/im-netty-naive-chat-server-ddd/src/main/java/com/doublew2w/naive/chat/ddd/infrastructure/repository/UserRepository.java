@@ -171,7 +171,6 @@ public class UserRepository implements IUserRepository {
   @Override
   public void deleteUserTalk(String userId, String talkId) {
     talkBoxDao.deleteUserTalk(userId, talkId);
-
   }
 
   @Override

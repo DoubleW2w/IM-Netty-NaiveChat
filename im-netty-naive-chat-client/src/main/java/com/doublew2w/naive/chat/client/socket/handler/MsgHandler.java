@@ -23,10 +23,16 @@ public class MsgHandler extends SimpleChannelInboundHandler<MsgResponse> {
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, MsgResponse msg) throws Exception {
     IChatMethod chat = uiService.getChat();
-    Platform.runLater(() -> {
-      chat.addTalkMsgUserLeft(msg.getFriendId(), msg.getMsgText(), msg.getMsgType(), msg.getMsgDate(), true, false, true);
-    });
+    Platform.runLater(
+        () -> {
+          chat.addTalkMsgUserLeft(
+              msg.getFriendId(),
+              msg.getMsgText(),
+              msg.getMsgType(),
+              msg.getMsgDate(),
+              true,
+              false,
+              true);
+        });
   }
-
 }
-

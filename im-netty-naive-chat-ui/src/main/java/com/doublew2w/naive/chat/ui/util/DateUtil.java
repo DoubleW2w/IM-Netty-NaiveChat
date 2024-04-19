@@ -10,8 +10,10 @@ import java.util.Date;
  * @project: IM-Netty-NaiveChat
  */
 public class DateUtil {
+
   SimpleDateFormat nowBegin = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
   SimpleDateFormat nowEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
   public static String simpleDate(Date date) {
     boolean today = isToday(date);
@@ -32,4 +34,5 @@ public class DateUtil {
     int day2 = c2.get(Calendar.DAY_OF_MONTH);
     return year1 == year2 && month1 == month2 && day1 == day2;
   }
+
 }

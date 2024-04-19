@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class UserDto {
+public class SearchUserDto {
   /** 用户ID */
   private String userId;
 
@@ -25,9 +25,9 @@ public class UserDto {
   /** 状态；0添加、1[保留]、2已添加 */
   private Integer status;
 
-  public UserDto() {}
+  public SearchUserDto() {}
 
-  public UserDto(String userId, String userNickName, String userHead) {
+  public SearchUserDto(String userId, String userNickName, String userHead) {
     this.userId = userId;
     this.userNickName = userNickName;
     this.userHead = userHead;

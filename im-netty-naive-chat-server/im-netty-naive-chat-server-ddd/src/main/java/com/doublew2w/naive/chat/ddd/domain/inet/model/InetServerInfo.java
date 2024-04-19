@@ -11,7 +11,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class InetServerInfo {
-  private String ip;      // IP
-  private int port;       // 端口
-  private boolean status; // 状态；true开启、false关闭
+  /** IP */
+  private String ip;
+
+  /** 端口 */
+  private int port;
+
+  /** 状态；true开启、false关闭 */
+  private boolean status;
 }

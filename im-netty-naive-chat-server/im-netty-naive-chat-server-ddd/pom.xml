@@ -8,7 +8,7 @@
         <artifactId>im-netty-naive-chat-server</artifactId>
         <version>1.0.0</version>
     </parent>
-
+    <packaging>war</packaging>
     <artifactId>im-netty-naive-chat-server-ddd</artifactId>
 
     <properties>
@@ -154,6 +154,10 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

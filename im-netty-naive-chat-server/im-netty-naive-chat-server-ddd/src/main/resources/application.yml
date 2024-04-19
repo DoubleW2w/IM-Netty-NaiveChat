@@ -21,15 +21,3 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     return-instance-for-empty-row: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-logging:
-  level:
-    com:
-      doublew2w:
-        naive:
-          chat:
-            ddd:
-              - info
-              - infrastructure:
-                  dao: debug
-

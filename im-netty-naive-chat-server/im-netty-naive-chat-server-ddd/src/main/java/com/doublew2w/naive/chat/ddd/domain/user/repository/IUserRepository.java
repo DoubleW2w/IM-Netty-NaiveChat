@@ -10,6 +10,12 @@ import java.util.List;
  * @project: IM-Netty-NaiveChat
  */
 public interface IUserRepository {
+  /**
+   * 查询用户密码
+   *
+   * @param userId 用户ID
+   * @return 用户密码
+   */
   String queryUserPassword(String userId);
 
   /**

@@ -23,9 +23,17 @@ public class TalkNoticeHandler extends SimpleChannelInboundHandler<TalkNoticeRes
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, TalkNoticeResponse msg) throws Exception {
     IChatMethod chat = uiService.getChat();
-    Platform.runLater(() -> {
-      chat.addTalkBox(-1, 0, msg.getTalkId(), msg.getTalkName(), msg.getTalkHead(), msg.getTalkSketch(), msg.getTalkDate(), false);
-    });
+    Platform.runLater(
+        () -> {
+          chat.addTalkBox(
+              -1,
+              0,
+              msg.getTalkId(),
+              msg.getTalkName(),
+              msg.getTalkHead(),
+              msg.getTalkSketch(),
+              msg.getTalkDate(),
+              false);
+        });
   }
-
 }

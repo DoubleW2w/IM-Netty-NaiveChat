@@ -5,7 +5,7 @@ import com.doublew2w.naive.chat.ddd.infrastructure.po.UserFriend;
 import java.util.List;
 
 /**
- * 登录接口定义
+ * 应用层：登录接口定义
  *
  * @author: DoubleW2w
  * @date: 2024/4/17 0:47

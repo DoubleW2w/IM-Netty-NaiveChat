@@ -2,7 +2,6 @@ package com.doublew2w.naive.chat.ui.view.chat;
 
 import com.doublew2w.naive.chat.ui.view.UIObject;
 import java.io.IOException;
-import java.util.Objects;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +16,7 @@ import javafx.stage.StageStyle;
  * @project: IM-Netty-NaiveChat
  */
 public abstract class ChatInit extends UIObject {
+
   private static final String RESOURCE_NAME = "/fxml/chat/chat.fxml";
 
   public String userId; // 用户ID
@@ -30,7 +30,7 @@ public abstract class ChatInit extends UIObject {
   ChatInit(IChatEvent chatEvent) {
     this.chatEvent = chatEvent;
     try {
-      root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(RESOURCE_NAME)));
+      root = FXMLLoader.load(getClass().getResource(RESOURCE_NAME));
     } catch (IOException e) {
       e.printStackTrace();
     }
